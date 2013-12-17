@@ -1,0 +1,31 @@
+<h1>Upload Video Test</h1>
+<video id="vid1" src="" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" data-setup='{ "techOrder": ["youtube"], "src": "http://www.youtube.com/watch?v=CZkUz7oT_6c" }'></video>
+
+<script type="text/javascript">videojs('vid1', {"techOrder": ["youtube"], "src": "http://www.youtube.com/watch?v=CZkUz7oT_6c"})</script>
+
+<input type="text" ng-model= "new_label" placeholder="Label..." />
+<button ng-click="makeTag()">
+  Make Tag
+</button>
+<label>Existing Tags</label>
+<select ng-model="selected_tag" ng-options="tag.name for tag in existing_tags | filter:tag_search">
+  <option value="">
+    <input type="text" ng-model="tag_search.name" placeholder="Search..." />
+  </option>
+</select>
+<label>Selected: {{selected_tag}}</label>
+<table border="1">
+  <tr>
+    <th>Label</th>
+    <th>Time (s)</th>
+    <th>Options</th>
+  </tr>
+  <tr ng-repeat="tag in tags">
+    <td>{{tag.label}}</td>
+    <td><a href="javascript:void(0)" ng-click="goTo(tag.time)">{{tag.time}}</a></td>
+    <td>
+    <button ng-click="deleteTag(tag)">
+      Delete
+    </button></td>
+  </tr>
+</table>

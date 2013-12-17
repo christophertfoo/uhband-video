@@ -13,4 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require_tree .
+//= require angularjs/angular.min
+//= require angularjs/angular-route.min
+//= require_directory ./services
+//= require_directory ./controllers
+//= require_directory .
+//= require videojs/video
+//= require videojs/vjs.youtube
