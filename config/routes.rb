@@ -1,4 +1,6 @@
 UhbandVideo::Application.routes.draw do
+  resources :tag_instances
+
   resources :media
 
   resources :tag_instances
