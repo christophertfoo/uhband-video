@@ -5,3 +5,15 @@
 span.twitter-typeahead {
   width: 100%;
 }
+
+ul.search-tags {
+  list-style-type: none;
+  padding: 0;
+  
+  li {
+    display: inline-block;
+    background-color: lightgrey;
+    padding: 0.2em;
+    margin: 0.1em;
+  }
+}
