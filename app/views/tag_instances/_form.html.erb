@@ -1,0 +1,21 @@
+<%= form_for(@tag_instance) do |f| %>
+  <% if @tag_instance.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tag_instance.errors.count, "error") %> prohibited this tag_instance from being saved:</h2>
+
+      <ul>
+      <% @tag_instance.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :timestamp %><br>
+    <%= f.text_field :timestamp %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
