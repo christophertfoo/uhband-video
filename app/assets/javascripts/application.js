@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require typeahead/typeahead
 //= require angularjs/angular.min
 //= require angularjs/angular-route.min
 //= require_directory ./services
