@@ -80,7 +80,7 @@
       
     if $scope.errors.length == 0
       newTags = _.difference($scope.tags, _.pluck($scope.existing_tags, 'name'))
-      )
+
   
   # Initialization function  
   init = ->
@@ -89,22 +89,14 @@
     $scope.mediaLoaded = false
     $scope.tags = []  
     $scope.errors = {}
-    $scope.existing_tags = [{ 
-      name : "Rainbow 2013",
-      id : 1
-    }, {
-      name : "Marching Band",
-      id : 2
-    }, {
-      name : "Trumpet Solo",
-      id : 3
-    }, {
-      name : "Drum Break",
-      id : 4
-    }, {
-      name : "Rainbow Closer",
-      id : 5
-    }];
+    $scope.existing_tags = [];
+    
+    $http.get('/api/tags.json').success((data) ->
+      _.each(data, (tag) ->
+        $scope.existing_tags.push({ name: tag.label, id: tag.id })
+      )
+      $scope.loading = false
+    )
     
     $scope.media_types = [
       {
@@ -116,7 +108,7 @@
         id: 2
       }
     ]
-    $scope.loading = false
+
     
   # Initialize the Controller
   init()

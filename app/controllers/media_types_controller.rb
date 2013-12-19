@@ -43,10 +43,8 @@ class MediaTypesController < ApplicationController
 
     respond_to do |format|
       if @media_type.save
-        format.html { redirect_to @media_type, notice: 'Media type was successfully created.' }
         format.json { render action: 'show', status: :created, location: @media_type }
       else
-        format.html { render action: 'new' }
         format.json { render json: @media_type.errors, status: :unprocessable_entity }
       end
     end
@@ -57,10 +55,8 @@ class MediaTypesController < ApplicationController
   def update
     respond_to do |format|
       if @media_type.update(media_type_params)
-        format.html { redirect_to @media_type, notice: 'Media type was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
         format.json { render json: @media_type.errors, status: :unprocessable_entity }
       end
     end
@@ -71,7 +67,6 @@ class MediaTypesController < ApplicationController
   def destroy
     @media_type.destroy
     respond_to do |format|
-      format.html { redirect_to media_types_url }
       format.json { head :no_content }
     end
   end

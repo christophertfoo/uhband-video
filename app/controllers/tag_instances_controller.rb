@@ -43,10 +43,8 @@ class TagInstancesController < ApplicationController
 
     respond_to do |format|
       if @tag_instance.save
-        format.html { redirect_to @tag_instance, notice: 'Tag instance was successfully created.' }
         format.json { render action: 'show', status: :created, location: @tag_instance }
       else
-        format.html { render action: 'new' }
         format.json { render json: @tag_instance.errors, status: :unprocessable_entity }
       end
     end
@@ -57,10 +55,8 @@ class TagInstancesController < ApplicationController
   def update
     respond_to do |format|
       if @tag_instance.update(tag_instance_params)
-        format.html { redirect_to @tag_instance, notice: 'Tag instance was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
         format.json { render json: @tag_instance.errors, status: :unprocessable_entity }
       end
     end
@@ -71,7 +67,6 @@ class TagInstancesController < ApplicationController
   def destroy
     @tag_instance.destroy
     respond_to do |format|
-      format.html { redirect_to tag_instances_url }
       format.json { head :no_content }
     end
   end
