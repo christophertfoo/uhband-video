@@ -1,13 +1,25 @@
+<!-- Template for the Add Media Page -->
+<!-- Author: Christopher Foo -->
 <div class="container">
   <h1>Add New Media Item</h1>
+
+  <!-- Loading Message -->
   <h2 ng-if="loading && !loadingFailed">Loading...</h2>
+
+  <!-- Loading Error Message -->
   <h2 ng-if="loading && loadingFailed">Failed to load the data... sorry!</h2>
+
+  <!-- New Media Form -->
   <div ng-if="!loading">
+
+    <!-- Title Field -->
     <div class="form-group" ng-class="{'has-error': errors['title']}">
       <label class="control-label" for="titleInput">Media Title (Required)</label>
       <input id="titleInput" type="text" class="form-control" placeholder="Title..." ng-model="media.title" />
       <span class="help-block" ng-if="errors['title']">{{errors['title']}}</span>
     </div>
+
+    <!-- Media Type Field -->
     <div class="form-group" ng-class="{'has-error': errors['media_type']}">
       <label class="control-label" for="mediaTypeSelect">Media Type (Required)</label>
       <select id="mediaTypeSelect" class="form-control" ng-model="media.media_type" ng-options="media_type.name for media_type in media_types">
@@ -15,11 +27,15 @@
       </select>
       <span class="help-block" ng-if="errors['media_type']">{{errors['media_type']}}</span>
     </div>
+
+    <!-- Description Field -->
     <div class="form-group" ng-class="{'has-error': errors['desc']}">
       <label class="control-label" for="descInput">Description (Required)</label>
-      <textarea id="descInput"  class="form-control" placeholder="Description..." rows="5" ng-model="media.desc" />
+      <textarea id="descInput"  class="form-control" placeholder="Description..." rows="5" ng-model="media.description" />
       <span class="help-block" ng-if="errors['desc']">{{errors['desc']}}</span>
     </div>
+
+    <!-- URL Field (if video) -->
     <div class="form-group" ng-if="isVideo()" ng-class="{'has-error': errors['url']}">
       <label class="control-label" for="urlInput">URL (Required)</label>
       <div class="input-group">
@@ -32,10 +48,12 @@
       <span class="help-block" ng-if="errors['url']">{{errors['url']}}</span>
     </div>
 
+    <!-- Video Player -->
     <div id="video-row" class="row" ng-class="{hidden: !mediaLoaded}">
       <video id="vid1" src="" class="video-js vjs-default-skin center-block" controls preload="auto" width="640" height="360" data-fake-attr></video>
     </div>
 
+    <!-- New Tag Field -->
     <div class="form-group">
       <label for="tagTypeahead">New Tag</label>
       <div class="input-group">
@@ -46,6 +64,8 @@
           </button> </span>
       </div>
     </div>
+
+    <!-- Current Tags -->
     <table class="table table-bordered">
       <tr>
         <th>Label</th>
@@ -61,7 +81,12 @@
         </button></td>
       </tr>
     </table>
+
+    <!-- Submit Button -->
     <div class="row">
+      <div class="alert" ng-if="submitStatus" ng-class="{'alert-success': submitStatus.indexOf('Success') != -1, 'alert-info': submitStatus.indexOf('Working') != -1, 'alert-danger': submitStatus.indexOf('Error') != -1}">
+        {{submitStatus}}
+      </div>
       <button class="btn btn-lg btn-primary pull-right" ng-click="submit()">
         Submit
       </button>

@@ -1,4 +1,4 @@
 json.array!(@media) do |medium|
-  json.extract! medium, :id, :description, :path, :creationtime
+  json.extract! medium, :title, :id, :description, :path
   json.url medium_url(medium, format: :json)
 end

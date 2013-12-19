@@ -12,6 +12,7 @@
   
   $scope.loading = true  
   $scope.loadFailed = false
+  $scope.submitStatus = ''
   
   # Enable / disable things when the media type changes
   $scope.$watch('media.media_type', (newValue, oldValue) ->   
@@ -67,33 +68,63 @@
   $scope.isVideo = -> 
     $scope.media.media_type && $scope.media.media_type.name == 'video'
   
+  changeSubmitStatus = (status) ->
+    $scope.$apply(->
+      $scope.submitStatus = status
+    )
+  
   $scope.submit = ->
+    $scope.submitStatus = ''
     $scope.errors = {}
     if !$scope.media.title || $scope.media.title.length < 1
       $scope.errors['title'] = 'Title cannot be empty.'
     if !$scope.media.media_type
       $scope.errors['media_type'] = 'Must specify a media type.'
-    if !$scope.media.desc || $scope.media.desc.length < 1
+    if !$scope.media.description || $scope.media.description.length < 1
       $scope.errors['desc'] = 'Description cannot be empty.'
-    if $scope.isVideo && (!$scope.media.url || $scope.media.url.length < 1)
+    if $scope.isVideo() && (!$scope.media.url || $scope.media.url.length < 1)
       $scope.errors['url'] = 'URL cannot be empty'
       
-    if $scope.errors.length == 0
+    if _.size($scope.errors) == 0
       newTags = _.difference(_.pluck($scope.tags, 'name'), _.pluck($scope.existing_tags, 'name'))
       newTagPromises = []
       _.each(newTags, (tag) ->
-        newTagPromises.push(jQuery.post('/api/tag', { label: tag }))
+        newTagPromises.push(jQuery.post('/api/tags', { label: tag }))
       )
       
       jQuery.when.apply(jQuery, newTagPromises).done( ->
-        jQuery.when(jQuery.get('/api/tags.json')).done((tagData) ->
+        jQuery.get('/api/tags.json').done((tagData) ->
           $scope.existing_tags = []
-          _.each(tagData[0], (tag) ->
+          _.each(tagData, (tag) ->
             $scope.existing_tags.push({ name: tag.label, id: tag.id })
           )
+          _.each($scope.tags, (tag) ->
+            match = _.find($scope.existing_tags, (match_tag) ->
+              match_tag.name == tag.name
+            )
+            tag.id = match.id
+          )
+          data = {
+            title: $scope.media.title,
+            media_type_id: $scope.media.media_type.id,
+            description: $scope.media.description,
+            url: $scope.media.url,
+            tags: $scope.tags.map((tag) ->
+              { id: tag.id, timestamp: tag.time }  
+            )
+          }
+          jQuery.post('/api/media.json', data).done(->
+            changeSubmitStatus("Success!")
+          ).fail(->
+            changeSubmitStatus('Error: Could not add the new media.')
+          )
+        )
+        .fail(->
+          changeSubmitStatus('Error: Could not add the new tags.')
         )
       )
-
+    else
+      changeSubmitStatus('Error: Invalid fields.')
   
   # Initialization function  
   init = ->    

@@ -11,18 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131219002328) do
+ActiveRecord::Schema.define(version: 20131219095020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "media", force: true do |t|
     t.string   "description",   null: false
-    t.string   "path",          null: false
-    t.datetime "creationtime",  null: false
+    t.string   "path"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "media_type_id"
+    t.string   "title"
   end
 
   create_table "media_types", force: true do |t|
