@@ -38,10 +38,15 @@ class MediaController < ApplicationController
   # POST /media
   # POST /media.json
   def create
-    @medium = Medium.new(medium_params)
+    @medium = Medium.new(title: medium_params[:title], media_type_id: medium_params[:media_type_id], description: medium_params[:description], path: medium_params[:path])
 
     respond_to do |format|
       if @medium.save
+        for tag in medium_params[:tags] do
+          if tag[1][:id] && tag[1][:timestamp] && Tag.find(tag[1][:id])
+            TagInstance.create(media_id: @medium.id, tags_id: tag[1][:id], timestamp: tag[1][:timestamp])            
+          end
+        end
         format.json { render action: 'show', status: :created, location: @medium }
       else
         format.json { render json: @medium.errors, status: :unprocessable_entity }
@@ -78,6 +83,6 @@ class MediaController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def medium_params
-      params.permit(:title, :description, :path, :media_type_id, :tags)
+      params.permit(:title, :description, :path, :media_type_id, tags: [:id, :timestamp] )
     end
 end

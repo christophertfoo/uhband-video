@@ -79,6 +79,6 @@ class TagInstancesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tag_instance_params
-      params.require(:tag_instance).permit(:timestamp, :media_id, :tags_id)
+      params.permit(:timestamp, :media_id, :tags_id)
     end
 end
