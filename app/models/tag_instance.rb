@@ -17,6 +17,10 @@ class TagInstance < ActiveRecord::Base
       else
         find(:all)
       end
-  end
+    end
+  
+    def self.getAll()
+      find(:all)
+    end
   
 end

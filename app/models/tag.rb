@@ -4,7 +4,6 @@ class Tag < ActiveRecord::Base
   validate :label, presence: true
   
   def self.getAll()
-     #find(:all, :conditions => ['path = ?', "#{search}"])
      find(:all)
      end
 end
