@@ -19,6 +19,7 @@
         <td><%= link_to 'Destroy', tag_instance, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
+    <%= @tag_instances.search(2) %>
   </tbody>
 </table>
 

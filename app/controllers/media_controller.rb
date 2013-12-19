@@ -1,6 +1,20 @@
 class MediaController < ApplicationController
   before_action :set_medium, only: [:show, :edit, :update, :destroy]
-
+=begin 
+   protect_from_forgery
+   after_filter :set_csrf_cookie_for_ng
+  
+  def set_csrf_cookie_for_ng
+    cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
+  end
+  
+  
+  
+  protected
+   def verified_request?
+    super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
+  end
+=end
   # GET /media
   # GET /media.json
   def index
@@ -69,6 +83,6 @@ class MediaController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def medium_params
-      params.require(:medium).permit(:description, :path, :creationtime)
+      params.require(:medium).permit(:description, :path, :creationtime, :media_type_id)
     end
 end

@@ -1,5 +1,20 @@
 class TagInstancesController < ApplicationController
   before_action :set_tag_instance, only: [:show, :edit, :update, :destroy]
+=begin  
+   protect_from_forgery
+   after_filter :set_csrf_cookie_for_ng
+  
+  def set_csrf_cookie_for_ng
+    cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
+  end
+  
+  
+  
+  protected
+   def verified_request?
+    super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
+  end
+=end
 
   # GET /tag_instances
   # GET /tag_instances.json
@@ -69,6 +84,6 @@ class TagInstancesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tag_instance_params
-      params.require(:tag_instance).permit(:timestamp)
+      params.require(:tag_instance).permit(:timestamp, :media_id, :tags_id)
     end
 end

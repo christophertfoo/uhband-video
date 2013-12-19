@@ -3,18 +3,21 @@ class Medium < ActiveRecord::Base
   has_many :tag_instances
   
   validate :path, presence: true
+  validate :description, presence: true
   validate :creationtime, presence: true
+  validate :media_type_id, presence: true
   
-  def self.search()
+  def self.search(search)
+     #def self.search()
       if search
-        #find(:all, :conditions => ['media_id like ?', "%#{search}%"])
-        find(:all, :conditions => ['media_id like 1'])
+        find(:all, :conditions => ['path = ?', "#{search}"])
       else
         find(:all)
       end
   end
-  
 
+  def self.getAll()
+     find(:all)
+  end
 end
 
-  medium.search()

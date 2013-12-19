@@ -19,6 +19,7 @@
         <td><%= link_to 'Destroy', tag, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
+    <%= @tags.getAll()%>
   </tbody>
 </table>
 

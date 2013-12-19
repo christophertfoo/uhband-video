@@ -11,28 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131218101530) do
+ActiveRecord::Schema.define(version: 20131219002328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "media", force: true do |t|
-    t.string   "description"
-    t.string   "path"
-    t.datetime "creationtime"
+    t.string   "description",   null: false
+    t.string   "path",          null: false
+    t.datetime "creationtime",  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "media_type_id"
   end
 
   create_table "media_types", force: true do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "tag_instances", force: true do |t|
-    t.integer  "timestamp"
+    t.integer  "timestamp",  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "tags_id"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20131218101530) do
   end
 
   create_table "tags", force: true do |t|
-    t.string   "label"
+    t.string   "label",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
