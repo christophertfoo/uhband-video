@@ -97,15 +97,9 @@
 
   
   # Initialization function  
-  init = ->
-    $scope.new_tag = { name: '' }
-    $scope.media = {}
-    $scope.mediaLoaded = false
-    $scope.tags = []  
-    $scope.errors = {}
+  init = ->    
     $scope.existing_tags = [];
     $scope.media_types = []  
-    
     jQuery.when(
       jQuery.get('/api/tags.json')
       jQuery.get('/api/media_types.json')
@@ -118,7 +112,12 @@
          $scope.media_types.push({ name: mediaType.name, id: mediaType.id })
        )
        $scope.$apply(->
-        $scope.loading = false
+         $scope.new_tag = { name: '' }
+         $scope.media = {}
+         $scope.mediaLoaded = false
+         $scope.tags = []  
+         $scope.errors = {}
+         $scope.loading = false
        )
     )
     .fail(->
