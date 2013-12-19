@@ -1,8 +1,22 @@
+<!-- Template for the Search Page -->
+<!-- Author: Christopher Foo -->
 <div class="container">
   <h1>Search By Tag</h1>
+<!--  <div class="form-group">
+    <label for="tagTypeahead">Add Tag</label>
+    <div class="input-group">
+      <input id="tagTypeahead" type="text" class="form-control" typeahead typeahead-name="tag" typeahead-data="existing_tags" typeahead_field="name" ng-model="new_tag" />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-primary" ng-click="addTag()">
+          Add
+        </button> </span>
+    </div>
+  </div> -->
   <ul class="search-tags">
     <li ng-repeat="tag in tags">
-      <div>{{tag.name}} <a href="javascript:void(0)">&#10006;</a></div>
+      <div>
+        {{tag.name}} <a href="javascript:void(0)">&#10006;</a>
+      </div>
     </li>
   </ul>
 </div>

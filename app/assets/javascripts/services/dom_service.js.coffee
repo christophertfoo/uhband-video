@@ -8,9 +8,6 @@
     enable: (selector) ->
       jQuery(selector).prop('disabled', false)
       
-    enableTypeahead: (selector, values) ->
-      jQuery(selector).typeahead(values)
-      
     remove: (selector) ->
       jQuery(selector).remove()
     

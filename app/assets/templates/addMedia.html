@@ -32,13 +32,13 @@
     </div>
 
     <div id="video-row" class="row" ng-class="{hidden: !mediaLoaded}">
-      <video id="vid1" src="" class="video-js vjs-default-skin center-block" controls preload="auto" width="640" height="360"></video>
+      <video id="vid1" src="" class="video-js vjs-default-skin center-block" controls preload="auto" width="640" height="360" data-fake-attr></video>
     </div>
 
     <div class="form-group">
       <label for="tagTypeahead">New Tag</label>
       <div class="input-group">
-        <input id="tagTypeahead" type="text" class="form-control" />
+        <input id="tagTypeahead" type="text" class="form-control"  ng-model="new_tag" typeahead typeahead-name="tag" typeahead-data="existing_tags" typeahead-field="name" />
         <span class="input-group-btn">
           <button type="button" class="btn btn-primary" ng-click="makeTag()">
             Add Tag

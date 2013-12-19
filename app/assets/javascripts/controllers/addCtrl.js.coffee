@@ -1,3 +1,11 @@
+#
+# addCtrl.js.coffee
+#
+# Author: Christopher Foo
+#
+# The controller for the add page.
+#
+
 @AddControllers = angular.module('AddControllers', ['videojs_helpers', 'dom_helpers'])
 
 @AddControllers.controller('AddCtrl', ['$scope', '$http','videojs', 'dom', ($scope, $http, videojs, dom) ->  
@@ -19,7 +27,7 @@
       videojs.dispose()
       $scope.mediaLoaded= false
     $scope.media = {}
-    $scope.new_tag = ""
+    $scope.new_tag = ''
     console.log(newVal, oldVal)
   
   # Loads the media at the given URL
@@ -40,14 +48,11 @@
       videojs.pause();
       
     $scope.tags.push({
-      label : $scope.new_tag,
+      label : $scope.new_tag
       time : if $scope.isVideo() then videojs.getCurrentTime() else 0
     });
-    
-    if $scope.existing_tags.map((e) -> e.name).indexOf($scope.new_label) == -1 && $scope.new_tags.indexOf($scope.new_label) == -1
-        $scope.new_tags.push $scope.new_label;
         
-    $scope.new_label = "";
+    $scope.new_tag = ''
 
   # Deletes a tag
   $scope.deleteTag = (tag) ->
@@ -74,11 +79,11 @@
       $scope.errors['url'] = 'URL cannot be empty'
       
     if $scope.errors.length == 0
-      newTags = $scope.tags
+      newTags = _.difference($scope.tags, _.pluck($scope.existing_tags, 'name'))
   
   # Initialization function  
   init = ->
-    $scope.new_tag = ""
+    $scope.new_tag = ''
     $scope.media = {}
     $scope.mediaLoaded = false
     $scope.tags = []  
@@ -110,7 +115,6 @@
         id: 2
       }
     ]
-    dom.enableTypeahead('#tagTypeahead', { name: 'tags', local: $scope.existing_tags.map((e) -> e.name) })
     $scope.loading = false
     
   # Initialize the Controller
