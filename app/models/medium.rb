@@ -7,20 +7,37 @@ class Medium < ActiveRecord::Base
   validate :description, presence: true
   validate :media_type_id, presence: true
   
-  def self.search(search)
+  def self.searchByPath(search)
       if search
-        find(:all, :conditions => ['path = ?', "#{search}"])
+        find(:all, :conditions => ['path like ?', "#{search}"])
       else
         find(:all)
       end
   end
+  
+  def self.searchById(search)
+    if search
+      find(:all, :conditions => ['media_id = ?', "#{search}"])
+    else
+      find(:all)
+    end
+  end
+  
+  def self.searchByTitle(search)
+    if search
+      find(:all, :conditions => ['title like ?', "#{search}"])
+    else
+      find(:all)
+    end
+  end
+
 
   def self.getAll()
      find(:all)
   end
   
   def self.getAllMediaID()
-       find(:all, )
+       select("media_id")
   end
 end
 
