@@ -27,7 +27,7 @@
       videojs.dispose()
       $scope.mediaLoaded= false
     $scope.media = {}
-    $scope.new_tag = ''
+    $scope.new_tag.name = ''
     console.log(newVal, oldVal)
   
   # Loads the media at the given URL
@@ -48,11 +48,11 @@
       videojs.pause();
       
     $scope.tags.push({
-      label : $scope.new_tag
+      label : $scope.new_tag.name
       time : if $scope.isVideo() then videojs.getCurrentTime() else 0
     });
         
-    $scope.new_tag = ''
+    $scope.new_tag.name = ''
 
   # Deletes a tag
   $scope.deleteTag = (tag) ->
@@ -80,10 +80,11 @@
       
     if $scope.errors.length == 0
       newTags = _.difference($scope.tags, _.pluck($scope.existing_tags, 'name'))
+      )
   
   # Initialization function  
   init = ->
-    $scope.new_tag = ''
+    $scope.new_tag = { name: '' }
     $scope.media = {}
     $scope.mediaLoaded = false
     $scope.tags = []  

@@ -38,7 +38,7 @@
     <div class="form-group">
       <label for="tagTypeahead">New Tag</label>
       <div class="input-group">
-        <input id="tagTypeahead" type="text" class="form-control"  ng-model="new_tag" typeahead typeahead-name="tag" typeahead-data="existing_tags" typeahead-field="name" />
+        <input id="tagTypeahead" type="text" class="form-control"  ng-model="new_tag.name" typeahead typeahead-name="tag" typeahead-data="existing_tags" typeahead-field="name" />
         <span class="input-group-btn">
           <button type="button" class="btn btn-primary" ng-click="makeTag()">
             Add Tag

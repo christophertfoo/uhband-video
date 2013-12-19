@@ -1,50 +1,55 @@
-@SearchControllers = angular.module('SearchControllers', [])
+@SearchControllers = angular.module('SearchControllers', ['ngRoute'])
 
-@SearchControllers.controller('SearchCtrl', ['$scope', ($scope) ->
-  $scope.tags = [
-    {
-      name: 'Tag 1',
-      id: 1
-    },
-    {
-      name: 'Tag 2',
-      id: 2
-    },
-    {
-      name: 'Tag 3',
-      id: 3
-    },
-    {
-      name: 'Tag 4',
-      id: 4
-    }
-  ]
-  
-  $scope.existing_tags = [{ 
-    name : "Rainbow 2013",
-    id : 1
-  }, {
-    name : "Marching Band",
-    id : 2
-  }, {
-    name : "Trumpet Solo",
-    id : 3
-  }, {
-    name : "Drum Break",
-    id : 4
-  }, {
-    name : "Rainbow Closer",
-    id : 5
-  }];
-  
-  $scope.new_tag = ''
-  
+@SearchControllers.controller('SearchCtrl', ['$scope', '$routeParams', ($scope, $routeParams) ->  
   tagFinder = (tag) ->
-    tag.name == $scope.new_tag
+    tag.name == $scope.new_tag.name
   
   $scope.addTag = ->
-    if $scope.new_tag? && $scope.new_tag.length > 0 && !_.find($scope.tags, tagFinder)
+    delete $scope.errors['add-tag']
+    if $scope.new_tag.name.length == 0
+      $scope.errors['add-tag'] = "Tag name cannot be empty."
+    else if !_.find($scope.tags, tagFinder)
       found = _.find($scope.existing_tags, tagFinder)
       if found?
         $scope.tags.push(found)
+      else
+        $scope.errors['add-tag'] = "\"#{$scope.new_tag.name}\" is not a valid tag name."
+    else
+      $scope.errors['add-tag'] = "Already searching for \"#{$scope.new_tag.name}\"."
+      
+    $scope.new_tag.name = ''
+        
+  $scope.removeTag = (tag) ->
+    $scope.tags = _.reject($scope.tags, (other) -> tag.name == other.name)
+    
+  init = ->
+    $scope.tags = []  
+    $scope.existing_tags = [{ 
+      name : "Rainbow 2013",
+      id : 1
+    }, {
+      name : "Marching Band",
+      id : 2
+    }, {
+      name : "Trumpet Solo",
+      id : 3
+    }, {
+      name : "Drum Break",
+      id : 4
+    }, {
+      name : "Rainbow Closer",
+      id : 5
+    }];
+      
+    $scope.new_tag = { name: '' }
+      
+    $scope.errors = {}
+    _.each($routeParams.tag_id, (element, index, list) ->
+      found = _.find($scope.existing_tags, (tag) -> tag.id == parseInt(element))
+      if found?
+        $scope.tags.push(found)
+    )
+    $scope.media_elements = []
+    
+  init()
 ])

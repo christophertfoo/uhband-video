@@ -2,21 +2,41 @@
 <!-- Author: Christopher Foo -->
 <div class="container">
   <h1>Search By Tag</h1>
-<!--  <div class="form-group">
-    <label for="tagTypeahead">Add Tag</label>
+  <div class="form-group" ng-class="{ 'has-error': errors['add-tag'] }">
+    <label class="control-label" for="tagTypeahead">Add Tag</label>
     <div class="input-group">
-      <input id="tagTypeahead" type="text" class="form-control" typeahead typeahead-name="tag" typeahead-data="existing_tags" typeahead_field="name" ng-model="new_tag" />
+      <input id="tagTypeahead" type="text" class="form-control" typeahead typeahead-name="tag" typeahead-data="existing_tags" typeahead-field="name" ng-model="new_tag.name" />
       <span class="input-group-btn">
         <button type="button" class="btn btn-primary" ng-click="addTag()">
           Add
         </button> </span>
     </div>
-  </div> -->
+    <span class="help-block" ng-if="errors['add-tag']">{{errors['add-tag']}}</span>
+  </div>
   <ul class="search-tags">
     <li ng-repeat="tag in tags">
       <div>
-        {{tag.name}} <a href="javascript:void(0)">&#10006;</a>
+        {{tag.name}} <a href="javascript:void(0)" ng-click="removeTag(tag)">&#10006;</a>
       </div>
     </li>
   </ul>
+  <div id="feed">
+    <h2>Matches ({{media_elements.length}})</h2>
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="media in media_elements">
+        <p>
+          Title: <a>{{media.title}}</a>
+        </p>
+        <p>
+          Type: {{media.media_type}}
+        </p>
+        <p>
+          Created At: {{convertDate(media.creation_date)}}
+        </p>
+        <p>
+          Description: {{media.desc}}
+        </p>
+      </li>
+    </ul>
+  </div>
 </div>
