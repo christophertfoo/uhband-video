@@ -1,6 +1,7 @@
 <div class="container">
   <h1>Add New Media Item</h1>
-  <h2 ng-if="loading">Loading...</h2>
+  <h2 ng-if="loading && !loadingFailed">Loading...</h2>
+  <h2 ng-if="loading && loadingFailed">Failed to load the data... sorry!</h2>
   <div ng-if="!loading">
     <div class="form-group" ng-class="{'has-error': errors['title']}">
       <label class="control-label" for="titleInput">Media Title (Required)</label>

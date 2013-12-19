@@ -11,6 +11,7 @@
 @AddControllers.controller('AddCtrl', ['$scope', '$http','videojs', 'dom', ($scope, $http, videojs, dom) ->  
   
   $scope.loading = true  
+  $scope.loadFailed = false
   
   # Enable / disable things when the media type changes
   $scope.$watch('media.media_type', (newValue, oldValue) ->   
@@ -48,7 +49,7 @@
       videojs.pause();
       
     $scope.tags.push({
-      label : $scope.new_tag.name
+      name : $scope.new_tag.name
       time : if $scope.isVideo() then videojs.getCurrentTime() else 0
     });
         
@@ -79,7 +80,20 @@
       $scope.errors['url'] = 'URL cannot be empty'
       
     if $scope.errors.length == 0
-      newTags = _.difference($scope.tags, _.pluck($scope.existing_tags, 'name'))
+      newTags = _.difference(_.pluck($scope.tags, 'name'), _.pluck($scope.existing_tags, 'name'))
+      newTagPromises = []
+      _.each(newTags, (tag) ->
+        newTagPromises.push(jQuery.post('/api/tag', { label: tag }))
+      )
+      
+      jQuery.when.apply(jQuery, newTagPromises).done( ->
+        jQuery.when(jQuery.get('/api/tags.json')).done((tagData) ->
+          $scope.existing_tags = []
+          _.each(tagData[0], (tag) ->
+            $scope.existing_tags.push({ name: tag.label, id: tag.id })
+          )
+        )
+      )
 
   
   # Initialization function  
@@ -90,26 +104,29 @@
     $scope.tags = []  
     $scope.errors = {}
     $scope.existing_tags = [];
+    $scope.media_types = []  
     
-    $http.get('/api/tags.json').success((data) ->
-      _.each(data, (tag) ->
-        $scope.existing_tags.push({ name: tag.label, id: tag.id })
-      )
-      $scope.loading = false
+    jQuery.when(
+      jQuery.get('/api/tags.json')
+      jQuery.get('/api/media_types.json')
     )
-    
-    $scope.media_types = [
-      {
-        name: "video",
-        id: 1
-      },
-      {
-        name: "text",
-        id: 2
-      }
-    ]
-
-    
+    .done((tagData, mediaTypeData) ->
+       _.each(tagData[0], (tag) ->
+         $scope.existing_tags.push({ name: tag.label, id: tag.id })
+       )
+       _.each(mediaTypeData[0], (mediaType) ->
+         $scope.media_types.push({ name: mediaType.name, id: mediaType.id })
+       )
+       $scope.$apply(->
+        $scope.loading = false
+       )
+    )
+    .fail(->
+      $scope.$apply(->
+        $scope.loadFailed = true
+      )
+    )
+     
   # Initialize the Controller
   init()
 ])
