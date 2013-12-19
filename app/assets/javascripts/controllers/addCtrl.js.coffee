@@ -108,7 +108,7 @@
             title: $scope.media.title,
             media_type_id: $scope.media.media_type.id,
             description: $scope.media.description,
-            url: $scope.media.url,
+            path: $scope.media.url,
             tags: $scope.tags.map((tag) ->
               { id: tag.id, timestamp: tag.time }  
             )

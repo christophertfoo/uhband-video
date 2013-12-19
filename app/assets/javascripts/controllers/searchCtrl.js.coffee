@@ -1,6 +1,9 @@
 @SearchControllers = angular.module('SearchControllers', ['ngRoute'])
 
-@SearchControllers.controller('SearchCtrl', ['$scope', '$routeParams', ($scope, $routeParams) ->  
+@SearchControllers.controller('SearchCtrl', ['$scope', '$routeParams', ($scope, $routeParams) ->
+  
+  $scope.loading = true
+    
   tagFinder = (tag) ->
     tag.name == $scope.new_tag.name
   
@@ -25,16 +28,25 @@
   init = ->
     $scope.tags = []  
     $scope.existing_tags = [];
+    
+    jQuery.get('/api/tags.json').done((tagData) ->
+      _.each(tagData, (tag) ->
+        $scope.existing_tags.push({ name: tag.label, id: tag.id })
+      )
+       
+      $scope.new_tag = { name: '' }
       
-    $scope.new_tag = { name: '' }
-      
-    $scope.errors = {}
-    _.each($routeParams.tag_id, (element, index, list) ->
-      found = _.find($scope.existing_tags, (tag) -> tag.id == parseInt(element))
-      if found?
-        $scope.tags.push(found)
+      $scope.errors = {}
+      _.each($routeParams.tag_id, (element, index, list) ->
+        found = _.find($scope.existing_tags, (tag) -> tag.id == parseInt(element))
+        if found?
+          $scope.tags.push(found)
+      )
+      $scope.media_elements = []
+      $scope.$apply(->
+        $scope.loading = false  
+      )
     )
-    $scope.media_elements = []
     
   init()
 ])

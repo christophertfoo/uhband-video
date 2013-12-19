@@ -4,13 +4,12 @@
   {
     restrict: 'A',
     scope: {
-      name: '@typeaheadName',
       data: '=typeaheadData',
       field: '@typeaheadField'
       model: '=ngModel',
     },
     link: (scope, element, attrs) ->
-      element.typeahead({ name: scope.name, local: if scope.field? then _.pluck(scope.data, scope.field) else scope.data })
+      element.typeahead({ local: if scope.field? then _.pluck(scope.data, scope.field) else scope.data })
       if scope.model?
         element.on('typeahead:selected', (e, datum) ->  
           scope.$apply(->
