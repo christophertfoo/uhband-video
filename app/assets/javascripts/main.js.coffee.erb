@@ -6,9 +6,9 @@
 
 @uhbandApp.config(['$routeProvider', '$locationProvider', ($routeProvider) -> 
     # Angular Routes
-    $routeProvider.when('/', { templateUrl: <%= asset_path 'home.html' %>, controller: 'HomeCtrl' })
-    $routeProvider.when('/add', { templateUrl: <%= asset_path 'addMedia.html' %>, controller: 'AddCtrl' })
-    $routeProvider.when('/search', { templateUrl: <%= asset_path 'search.html' %>, controller: 'SearchCtrl' })
-    $routeProvider.when('/media/:id', { templateUrl: <%= asset_path 'viewMedia.html' %>, controller: 'ViewCtrl'})
-    $routeProvider.otherwise({ templateUrl: <%= asset_path '404.html' %>}) 
+    $routeProvider.when('/', { templateUrl: '<%= asset_path 'home.html' %>', controller: 'HomeCtrl' })
+    $routeProvider.when('/add', { templateUrl: '<%= asset_path 'addMedia.html' %>', controller: 'AddCtrl' })
+    $routeProvider.when('/search', { templateUrl: '<%= asset_path 'search.html' %>', controller: 'SearchCtrl' })
+    $routeProvider.when('/media/:id', { templateUrl: '<%= asset_path 'viewMedia.html' %>', controller: 'ViewCtrl'})
+    $routeProvider.otherwise({ templateUrl: '<%= asset_path '404.html' %>'}) 
 ])
