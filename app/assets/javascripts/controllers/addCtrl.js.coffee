@@ -29,7 +29,6 @@
       $scope.mediaLoaded= false
     $scope.media = {}
     $scope.new_tag.name = ''
-    console.log(newVal, oldVal)
   
   # Loads the media at the given URL
   $scope.loadMedia = ->

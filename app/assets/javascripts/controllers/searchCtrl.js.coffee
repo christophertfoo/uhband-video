@@ -24,22 +24,7 @@
     
   init = ->
     $scope.tags = []  
-    $scope.existing_tags = [{ 
-      name : "Rainbow 2013",
-      id : 1
-    }, {
-      name : "Marching Band",
-      id : 2
-    }, {
-      name : "Trumpet Solo",
-      id : 3
-    }, {
-      name : "Drum Break",
-      id : 4
-    }, {
-      name : "Rainbow Closer",
-      id : 5
-    }];
+    $scope.existing_tags = [];
       
     $scope.new_tag = { name: '' }
       

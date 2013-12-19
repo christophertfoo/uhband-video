@@ -14,7 +14,7 @@
       if scope.model?
         element.on('typeahead:selected', (e, datum) ->  
           scope.$apply(->
-            scope.model = e.datum.value
+            scope.model = datum.value
           ))
         element.on('typeahead:autocompleted', (e, datum) ->
           scope.$apply(->
