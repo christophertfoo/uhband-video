@@ -8,8 +8,16 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+ *= require videojs/video-js
+ *= require typeahead/typeahead
+ *= require main
  *= require_self
  *= require_tree .
  */
 
+$navbar-default-color: white;
+$navbar-default-bg: green;
+$navbar-default-link-color: white;
+$navbar-default-link-hover-color: lightgrey;
 @import "bootstrap";
+@import "bootstrap/theme"

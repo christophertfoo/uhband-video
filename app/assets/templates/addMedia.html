@@ -1,0 +1,70 @@
+<div class="container">
+  <h1>Add New Media Item</h1>
+  <h2 ng-if="loading">Loading...</h2>
+  <div ng-if="!loading">
+    <div class="form-group" ng-class="{'has-error': errors['title']}">
+      <label class="control-label" for="titleInput">Media Title (Required)</label>
+      <input id="titleInput" type="text" class="form-control" placeholder="Title..." ng-model="media.title" />
+      <span class="help-block" ng-if="errors['title']">{{errors['title']}}</span>
+    </div>
+    <div class="form-group" ng-class="{'has-error': errors['media_type']}">
+      <label class="control-label" for="mediaTypeSelect">Media Type (Required)</label>
+      <select id="mediaTypeSelect" class="form-control" ng-model="media.media_type" ng-options="media_type.name for media_type in media_types">
+        <option value="" ng-if="!media.media_type"> Media Type... </option>
+      </select>
+      <span class="help-block" ng-if="errors['media_type']">{{errors['media_type']}}</span>
+    </div>
+    <div class="form-group" ng-class="{'has-error': errors['desc']}">
+      <label class="control-label" for="descInput">Description (Required)</label>
+      <textarea id="descInput"  class="form-control" placeholder="Description..." rows="5" ng-model="media.desc" />
+      <span class="help-block" ng-if="errors['desc']">{{errors['desc']}}</span>
+    </div>
+    <div class="form-group" ng-if="isVideo()" ng-class="{'has-error': errors['url']}">
+      <label class="control-label" for="urlInput">URL (Required)</label>
+      <div class="input-group">
+        <input id="urlInput" type="text" class="form-control" placeholder="URL..." ng-model="media.url"/>
+        <span class="input-group-btn">
+          <button id="urlLoadBtn" type="button" class="btn btn-primary" ng-click="loadMedia()">
+            Load
+          </button> </span>
+      </div>
+      <span class="help-block" ng-if="errors['url']">{{errors['url']}}</span>
+    </div>
+
+    <div id="video-row" class="row" ng-class="{hidden: !mediaLoaded}">
+      <video id="vid1" src="" class="video-js vjs-default-skin center-block" controls preload="auto" width="640" height="360" data-fake-attr></video>
+    </div>
+
+    <div class="form-group">
+      <label for="tagTypeahead">New Tag</label>
+      <div class="input-group">
+        <input id="tagTypeahead" type="text" class="form-control"  ng-model="new_tag.name" typeahead typeahead-name="tag" typeahead-data="existing_tags" typeahead-field="name" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-primary" ng-click="makeTag()">
+            Add Tag
+          </button> </span>
+      </div>
+    </div>
+    <table class="table table-bordered">
+      <tr>
+        <th>Label</th>
+        <th ng-if="isVideo() && mediaLoaded">Time (s)</th>
+        <th>Options</th>
+      </tr>
+      <tr ng-repeat="tag in tags">
+        <td>{{tag.label}}</td>
+        <td ng-if="isVideo() && mediaLoaded"><a href="javascript:void(0)" ng-click="goTo(tag.time)">{{tag.time}}</a></td>
+        <td>
+        <button class="btn btn-danger" ng-click="deleteTag(tag)">
+          Delete
+        </button></td>
+      </tr>
+    </table>
+    <div class="row">
+      <button class="btn btn-lg btn-primary pull-right" ng-click="submit()">
+        Submit
+      </button>
+    </div>
+  </div>
+</div>
+
