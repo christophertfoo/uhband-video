@@ -1,3 +1,12 @@
+#
+# date_coverter.js.coffee
+#
+# Author: Christopher Foo
+#
+# A service for converting the database's ugly dates into
+# a nicer format.
+#
+
 @date_converter = angular.module('DateConverter', [])
 
 @date_converter.factory('date_converter', ->

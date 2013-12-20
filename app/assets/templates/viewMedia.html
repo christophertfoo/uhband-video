@@ -1,5 +1,11 @@
+<!-- The template for the View Media (single media) page -->
+<!-- Author: Christopher Foo -->
 <div class="container">
+  
+  <!-- Loading Message -->
   <h1 ng-if="loading">Loading...</h1>
+  
+  <!-- Media Display -->
   <div ng-if="!loading">
     <h1>{{media.title}}</h1>
     <div ng-if="media.media_type == 'video'">
@@ -26,6 +32,6 @@
         <a href="#/search?tag_id={{tag.id}}">{{tag.label}}</a>
       </li>
     </ul>
-    <a href="javascript:void(0)" ng-click="searchRelated()">Search For Related</a>
+    <a href="javascript:void(0)" class="btn btn-primary" ng-click="searchRelated()">Search For Related</a>
   </div>
 </div>

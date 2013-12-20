@@ -1,5 +1,9 @@
+<!-- Home Page template for the UH Band Video site -->
+<!-- Christopher Foo -->
 <div class="container">
   <h1>Welcome to the UH Band video website!</h1>
+  
+  <!-- Tabs -->
   <ul class="nav nav-tabs">
     <li class="active">
       <a data-target="#feed" data-toggle="tab">Feed</a>
@@ -9,10 +13,14 @@
     </li>
   </ul>
 
+  <!-- Tab Content -->
   <div class="tab-content">
+    
+    <!-- Feed -->
     <div id="feed" class="tab-pane active">
       <h2>Feed</h2>
-      <ul class="list-group">
+      <h3 ng-if="feedLoading">Loading...</h3>
+      <ul class="list-group" ng-if="!feedLoading">
         <li class="list-group-item feed" ng-repeat="media in media_elements">
           <p>
             Title: <a href="#/media/{{media.id}}">{{media.title}}</a>
@@ -31,6 +39,8 @@
         </li>
       </ul>
     </div>
+    
+    <!-- About Us / Information -->
     <div id="about" class="tab-pane">
       <h2>About Us</h2>
       <p>

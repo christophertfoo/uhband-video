@@ -26,6 +26,8 @@ class MediaController < ApplicationController
   def show
   end
   
+  # Author: Christopher Foo
+  # GET /search.json
   def search
     if medium_params[:tag_ids]
       @media = Medium.searchByTags(medium_params[:tag_ids].map { |tag| tag.to_i })
@@ -93,7 +95,7 @@ class MediaController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_medium
-      @medium = Medium.getMedia(params[:id])
+      @medium = Medium.getMedium(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

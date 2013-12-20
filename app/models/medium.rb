@@ -45,10 +45,22 @@ class Medium < ActiveRecord::Base
        select("media_id")
   end
   
-  def self.getMedia(media_id)
+  #
+  # Gets the medium with the given ID and prefetches its
+  # associations.
+  #
+  # Author: Christopher Foo
+  #
+  def self.getMedium(media_id)
     includes(:tags, :tag_instances, :media_type).find(media_id)
   end
   
+  #
+  # Gets all Media that have the tags with the given ids sorted by creation
+  # time with the latest being first.
+  #
+  # Author: Christopher Foo
+  #
   def self.searchByTags(tag_ids)
     # Find all with at least one of the tags
     resultSet = includes(:tags).joins(:tags).where(tags: {id: tag_ids}).order("media.created_at").reverse_order
