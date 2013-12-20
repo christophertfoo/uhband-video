@@ -17,3 +17,14 @@ ul.search-tags {
     margin: 0.1em;
   }
 }
+
+li.feed {
+  a {
+    color: green;
+    font-weight: bolder;
+    
+    :visited {
+      color: lightgreen;
+    }
+  }
+}

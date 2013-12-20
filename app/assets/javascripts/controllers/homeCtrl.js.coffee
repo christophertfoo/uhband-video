@@ -1,25 +1,25 @@
 @HomeControllers = angular.module('HomeControllers', [])
 
 @HomeControllers.controller('HomeCtrl', ['$scope', ($scope) ->
-    $scope.media_elements = [
-      {
-        mediaId: 1,
-        title: "Test",
-        media_type:"video",
-        description:"Test Description",
-        creation_date: {
-          month: 12,
-          day: 17,
-          year: 2013,
-          hour: 21,
-          minute: 28,
-          second: 59 
-        }
-      }
-    ]
+  
+  $scope.feedLoading = true
+  
+  $scope.media_elements = []
     
-    $scope.convertDate = (dateJson) ->
-      date = new Date(dateJson.year, dateJson.month, dateJson.day, dateJson.hour, dateJson.minute, dateJson.second, 0)
-      date.toString()
+  $scope.convertDate = (created_at) ->
+    regex = /(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)\.(\d+)/
+    matches = regex.exec(created_at)
+    date = new Date(matches[1], parseInt(matches[2]) - 1, matches[3], matches[4], matches[5], matches[6], matches[7])
+    date.toString()
+ 
+  init = ->
+    jQuery.get('/api/media.json').done((mediaData) ->
+      _.each(mediaData, (data) -> 
+        $scope.media_elements.push(data)
+      )
       
+      $scope.$apply()  
+     )
+     
+  init()
 ])

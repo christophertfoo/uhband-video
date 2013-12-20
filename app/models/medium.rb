@@ -36,6 +36,10 @@ class Medium < ActiveRecord::Base
      find(:all)
   end
   
+  def self.getAllMediaSortedByTime()
+       all.includes(:media_type).order("created_at").reverse_order
+  end
+  
   def self.getAllMediaID()
        select("media_id")
   end

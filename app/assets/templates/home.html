@@ -19,15 +19,15 @@
     <div id="feed" class="tab-pane">
       <h2>Feed</h2>
       <ul class="list-group">
-        <li class="list-group-item" ng-repeat="media in media_elements">
+        <li class="list-group-item feed" ng-repeat="media in media_elements">
           <p>
-            Title: <a>{{media.title}}</a>
+            Title: <a href="#/media/{{media.id}}">{{media.title}}</a>
           </p>
           <p>
             Type: {{media.media_type}}
           </p>
           <p>
-            Created At: {{convertDate(media.creation_date)}}
+            Created At: {{convertDate(media.created_at)}}
           </p>
           <p>
             Description: <br />
