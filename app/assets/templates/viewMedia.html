@@ -24,7 +24,7 @@
     </p>
     <ul ng-if="media.media_type == 'video'">
       <li ng-repeat="tag in media.tags">
-        <a href="#/search?tag_id={{tag.id}}">{{tag.label}}</a>(<a href="javascript:void(0)" ng-click="gotoTime(tag.timestamp)">Goto {{tag.timestamp}} s</a>)
+        <a href="#/search?tag_id={{tag.id}}">{{tag.label}}</a>(<a href="javascript:void(0)" ng-click="gotoTime(tag.timestamp)">Go to {{tag.timestamp}} s</a>)
       </li>
     </ul>
     <ul ng-if="media.media_type != 'video'">
