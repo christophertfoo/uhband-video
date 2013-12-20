@@ -43,12 +43,14 @@ class MediaController < ApplicationController
 
     respond_to do |format|
       if @medium.save
+        if medium_params[:tags]
         for tag in medium_params[:tags] do
-          if tag[1][:id] && tag[1][:timestamp] && Tag.find(tag[1][:id])
-            TagInstance.create(media_id: @medium.id, tags_id: tag[1][:id], timestamp: tag[1][:timestamp])            
+            if tag[1][:id] && tag[1][:timestamp] && Tag.find(tag[1][:id])
+              TagInstance.create(media_id: @medium.id, tags_id: tag[1][:id], timestamp: tag[1][:timestamp])            
+            end
           end
         end
-        format.json { render action: 'show', status: :created, location: @medium }
+        format.json { render 'create' }
       else
         format.json { render json: @medium.errors, status: :unprocessable_entity }
       end

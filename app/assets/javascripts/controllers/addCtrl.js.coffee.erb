@@ -8,7 +8,7 @@
 
 @AddControllers = angular.module('AddControllers', ['videojs_helpers', 'dom_helpers'])
 
-@AddControllers.controller('AddCtrl', ['$scope', '$http','videojs', 'dom', ($scope, $http, videojs, dom) ->  
+@AddControllers.controller('AddCtrl', ['$scope', '$http', '$location', 'videojs', 'dom', ($scope, $http, $location, videojs, dom) ->  
   
   # If the program is loading the initial data from the server
   $scope.loading = true  
@@ -132,9 +132,11 @@
               { id: tag.id, timestamp: tag.time }  
             )
           }
-          jQuery.post('/api/media.json', data).done(->
+          jQuery.post('/api/media.json', data).done((created)->
             # Media creation succeeded
-            changeSubmitStatus("Success!")
+            $scope.$apply(->
+              $location.path("/media/#{created.id}?success")
+            )
           ).fail(->
             # Media creation failed
             changeSubmitStatus('Error: Could not add the new media.')
