@@ -1,8 +1,8 @@
 class TagInstance < ActiveRecord::Base
 
  
-  belongs_to :media #foreign key - media_id
-  belongs_to :tags #foreign_key -tags_id
+  belongs_to :media, class_name: :Medium, foreign_key: :media_id #foreign key - media_id
+  belongs_to :tags, class_name: :Tag, foreign_key: :tags_id  #foreign_key -tags_id
 
   validate :timestamp, presence: true
   validate :media_id, presence: true

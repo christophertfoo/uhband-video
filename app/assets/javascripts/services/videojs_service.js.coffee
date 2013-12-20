@@ -7,11 +7,11 @@
 # Probably be moved to a directive at some point...
 #
 
-@videojs_helpers = angular.module('videojs_helpers', [])
+@videojs_helpers = angular.module('VideojsHelpers', [])
 
 @videojs_helpers.factory('videojs', ->
   techOrderArray = ["youtube"]
-  return {    
+  {    
   
     # Finds the player on the page
     player: -> 

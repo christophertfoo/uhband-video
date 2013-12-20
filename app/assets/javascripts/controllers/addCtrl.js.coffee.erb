@@ -6,7 +6,7 @@
 # The controller for the add page.
 #
 
-@AddControllers = angular.module('AddControllers', ['videojs_helpers', 'dom_helpers'])
+@AddControllers = angular.module('AddControllers', ['VideojsHelpers', 'DomHelpers'])
 
 @AddControllers.controller('AddCtrl', ['$scope', '$http', '$location', 'videojs', 'dom', ($scope, $http, $location, videojs, dom) ->  
   
@@ -135,7 +135,7 @@
           jQuery.post('/api/media.json', data).done((created)->
             # Media creation succeeded
             $scope.$apply(->
-              $location.path("/media/#{created.id}?success")
+              $location.path("/media/#{created.id}?success=true")
             )
           ).fail(->
             # Media creation failed

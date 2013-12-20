@@ -2,21 +2,15 @@
   <h1>Welcome to the UH Band video website!</h1>
   <ul class="nav nav-tabs">
     <li class="active">
-      <a data-target="#about" data-toggle="tab">About Us</a>
+      <a data-target="#feed" data-toggle="tab">Feed</a>
     </li>
     <li>
-      <a data-target="#feed" data-toggle="tab">Feed</a>
+      <a data-target="#about" data-toggle="tab">About Us</a>
     </li>
   </ul>
 
   <div class="tab-content">
-    <div id="about" class="tab-pane active">
-      <h2>About Us</h2>
-      <p>
-        Stuff about the UH Band!
-      </p>
-    </div>
-    <div id="feed" class="tab-pane">
+    <div id="feed" class="tab-pane active">
       <h2>Feed</h2>
       <ul class="list-group">
         <li class="list-group-item feed" ng-repeat="media in media_elements">
@@ -30,11 +24,18 @@
             Created At: {{convertDate(media.created_at)}}
           </p>
           <p>
-            Description: <br />
+            Description:
+            <br />
             {{media.description}}
           </p>
         </li>
       </ul>
+    </div>
+    <div id="about" class="tab-pane">
+      <h2>About Us</h2>
+      <p>
+        Stuff about the UH Band!
+      </p>
     </div>
   </div>
 </div>

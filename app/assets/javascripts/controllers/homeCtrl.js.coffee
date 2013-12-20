@@ -1,16 +1,13 @@
-@HomeControllers = angular.module('HomeControllers', [])
+@HomeControllers = angular.module('HomeControllers', ['DateConverter'])
 
-@HomeControllers.controller('HomeCtrl', ['$scope', ($scope) ->
+@HomeControllers.controller('HomeCtrl', ['$scope', 'date_converter', ($scope, date_converter) ->
   
   $scope.feedLoading = true
   
   $scope.media_elements = []
     
   $scope.convertDate = (created_at) ->
-    regex = /(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)\.(\d+)/
-    matches = regex.exec(created_at)
-    date = new Date(matches[1], parseInt(matches[2]) - 1, matches[3], matches[4], matches[5], matches[6], matches[7])
-    date.toString()
+    date_converter.convert(created_at)
  
   init = ->
     jQuery.get('/api/media.json').done((mediaData) ->

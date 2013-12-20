@@ -1,8 +1,26 @@
-@SearchControllers = angular.module('SearchControllers', ['ngRoute'])
+@SearchControllers = angular.module('SearchControllers', ['ngRoute', 'DateConverter'])
 
-@SearchControllers.controller('SearchCtrl', ['$scope', '$routeParams', ($scope, $routeParams) ->
+@SearchControllers.controller('SearchCtrl', ['$scope', '$routeParams', 'date_converter', ($scope, $routeParams, date_converter) ->
   
   $scope.loading = true
+    
+  $scope.loadingFeed = false
+  
+  $scope.convertDate = (created_at) ->
+    date_converter.convert(created_at)
+    
+  refreshResults = ->
+      $scope.media_elements = []
+      $scope.loadingFeet = true
+      data = {
+        tag_ids: _.pluck($scope.tags, 'id')
+      }
+      jQuery.get("/api/search", data).done((searchData) ->
+        $scope.$apply( ->
+          $scope.media_elements = searchData
+          $scope.loadingFeed = false  
+        )
+      )
     
   tagFinder = (tag) ->
     tag.name == $scope.new_tag.name
@@ -21,30 +39,39 @@
       $scope.errors['add-tag'] = "Already searching for \"#{$scope.new_tag.name}\"."
       
     $scope.new_tag.name = ''
+    refreshResults()
         
   $scope.removeTag = (tag) ->
     $scope.tags = _.reject($scope.tags, (other) -> tag.name == other.name)
+    refreshResults()
     
   init = ->
     $scope.tags = []  
     $scope.existing_tags = [];
     
     jQuery.get('/api/tags.json').done((tagData) ->
+
       _.each(tagData, (tag) ->
         $scope.existing_tags.push({ name: tag.label, id: tag.id })
       )
-       
-      $scope.new_tag = { name: '' }
       
+      $scope.new_tag = { name: '' }
+    
       $scope.errors = {}
-      _.each($routeParams.tag_id, (element, index, list) ->
+      _.each((if $routeParams.tag_id instanceof Array then $routeParams.tag_id else [$routeParams.tag_id]), (element, index, list) ->
         found = _.find($scope.existing_tags, (tag) -> tag.id == parseInt(element))
         if found?
           $scope.tags.push(found)
       )
       $scope.media_elements = []
-      $scope.$apply(->
-        $scope.loading = false  
+      data = {
+        tag_ids: _.pluck($scope.tags, 'id')
+      }
+      jQuery.get("/api/search", data).done((searchData) ->
+        $scope.$apply( ->
+          $scope.media_elements = searchData
+          $scope.loading = false  
+        )
       )
     )
     

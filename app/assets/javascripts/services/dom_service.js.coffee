@@ -7,10 +7,10 @@
 # be handled by directives at some point...
 #
 
-@domService = angular.module('dom_helpers', [])
+@domService = angular.module('DomHelpers', [])
 
 @domService.factory('dom', ->
-  return {
+  {
     
     # Disable an element
     disable: (selector) ->

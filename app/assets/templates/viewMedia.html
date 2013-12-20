@@ -1,22 +1,31 @@
 <div class="container">
-  <h1>{{media.title}}</h1>
-  <div ng-if="media.media_type == 'video'">
-    <video id="vid1" src="" class="video-js vjs-default-skin center-block" controls preload="auto" width="640" height="360" data-fake-attr></video>
+  <h1 ng-if="loading">Loading...</h1>
+  <div ng-if="!loading">
+    <h1>{{media.title}}</h1>
+    <div ng-if="media.media_type == 'video'">
+      <video id="vid1" src="" class="video-js vjs-default-skin center-block" controls preload="auto" width="640" height="360" data-fake-attr></video>
+    </div>
+    <p>
+      Created At: <br />
+      {{convertDate(media.created_at)}}
+    </p>
+    <p>
+      Description:<br />
+      {{media.description}}
+    </p>
+    <p>
+      Tags:
+    </p>
+    <ul ng-if="media.media_type == 'video'">
+      <li ng-repeat="tag in media.tags">
+        <a href="#/search?tag_id={{tag.id}}">{{tag.label}}</a>(<a href="javascript:void(0)" ng-click="gotoTime(tag.timestamp)">{{tag.timestamp}}</a>)
+      </li>
+    </ul>
+    <ul ng-if="media.media_type != 'video'">
+      <li ng-repeat="tag in media.tags">
+        <a href="#/search?tag_id={{tag.id}}">{{tag.label}}</a>
+      </li>
+    </ul>
+    <a href="javascript:void(0)" ng-click="searchRelated()">Search For Related</a>
   </div>
-  <p>Description:</p>
-  <p>
-    {{media.desc}}
-  </p>
-  <p>Tags:</p>
-  <ul ng-if="media.media_type == 'video'">
-    <li ng-repeat="tag in media.tags">
-      <a href="#/search?tag_id={{tag.id}}">{{tag.label}}</a>(<a href="javascript:void(0)" ng-click="gotoTime(tag.timestamp)">{{tag.timestamp}}</a>)
-    </li>
-  </ul>
-  <ul ng-if="media.media_type != 'video'">
-    <li ng-repeat="tag in media.tags">
-      <a href="#/search?tag_id={{tag.id}}">{{tag.label}}</a>
-    </li>
-  </ul>
-  <a href="javascript:void(0)" ng-click="searchRelated()">Search For Related</a>
 </div>
