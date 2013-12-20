@@ -79,7 +79,7 @@
       $scope.errors = {}
       
       # Generate the parameters for the search query
-      _.each((if $routeParams.tag_id instanceof Array then $routeParams.tag_id else [$routeParams.tag_id]), (element, index, list) ->
+      _.each((if $routeParams.tag_id instanceof Array then _.uniq($routeParams.tag_id) else [$routeParams.tag_id]), (element, index, list) ->
         found = _.find($scope.existing_tags, (tag) -> tag.id == parseInt(element))
         if found?
           $scope.tags.push(found)

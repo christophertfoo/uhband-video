@@ -31,7 +31,7 @@ class Medium < ActiveRecord::Base
   # Returns all the media sorted by creation time
   # Author: Jack 
   def self.getAllMediaSortedByTime()
-       find(:all).order("created_at").reverse_order
+       all.order("created_at").reverse_order
   end
   
   # Returns all instances of the media_id
@@ -55,8 +55,8 @@ class Medium < ActiveRecord::Base
           :joins => [:media_types],
           :select => 'name')
      else
-     find(:all)
-  end
+       find(:all)
+     end
   end
   
   # Returns all labels of the media's tags
@@ -70,6 +70,7 @@ class Medium < ActiveRecord::Base
         :select => 'label')
     else
       find(:all)
+    end
   end
   
   #
