@@ -28,7 +28,7 @@
       _.each(mediaData, (data) -> 
         $scope.media_elements.push(data)
       )      
-      $scope.feedoading = false
+      $scope.feedLoading = false
       $scope.$apply()  
      )
  
