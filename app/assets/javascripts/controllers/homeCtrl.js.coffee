@@ -6,7 +6,7 @@
         mediaId: 1,
         title: "Test",
         media_type:"video",
-        desc:"Test Description",
+        description:"Test Description",
         creation_date: {
           month: 12,
           day: 17,

@@ -35,6 +35,7 @@ class MediaController < ApplicationController
   def edit
   end
 
+  # Author: Christopher Foo
   # POST /media
   # POST /media.json
   def create

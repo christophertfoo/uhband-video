@@ -1,15 +1,22 @@
 <div class="container">
   <h1>{{media.title}}</h1>
   <div ng-if="media.media_type == 'video'">
-
+    <video id="vid1" src="" class="video-js vjs-default-skin center-block" controls preload="auto" width="640" height="360" data-fake-attr></video>
   </div>
+  <p>Description:</p>
   <p>
     {{media.desc}}
   </p>
-  <ul>
-    <li>
-      
+  <p>Tags:</p>
+  <ul ng-if="media.media_type == 'video'">
+    <li ng-repeat="tag in media.tags">
+      <a href="#/search?tag_id={{tag.id}}">{{tag.label}}</a>(<a href="javascript:void(0)" ng-click="gotoTime(tag.timestamp)">{{tag.timestamp}}</a>)
     </li>
   </ul>
-  <a>Search For Related</a>
+  <ul ng-if="media.media_type != 'video'">
+    <li ng-repeat="tag in media.tags">
+      <a href="#/search?tag_id={{tag.id}}">{{tag.label}}</a>
+    </li>
+  </ul>
+  <a href="javascript:void(0)" ng-click="searchRelated()">Search For Related</a>
 </div>

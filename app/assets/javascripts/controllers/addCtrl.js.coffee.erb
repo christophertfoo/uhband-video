@@ -10,8 +10,13 @@
 
 @AddControllers.controller('AddCtrl', ['$scope', '$http','videojs', 'dom', ($scope, $http, videojs, dom) ->  
   
+  # If the program is loading the initial data from the server
   $scope.loading = true  
+  
+  # If initial load failed
   $scope.loadFailed = false
+  
+  # The status of the submit action
   $scope.submitStatus = ''
   
   # Enable / disable things when the media type changes
@@ -19,7 +24,7 @@
 
     if oldValue && oldValue.name == 'video' && $scope.mediaLoaded
       videojs.dispose()
-      dom.load('#video-row', 'assets/video-partial.html', ->)
+      dom.load('#video-row', '<%= asset_path 'video-partial.html' %>', ->)
       $scope.mediaLoaded = false
   )
   
@@ -68,14 +73,18 @@
   $scope.isVideo = -> 
     $scope.media.media_type && $scope.media.media_type.name == 'video'
   
+  # Changes the submit status to the given status
   changeSubmitStatus = (status) ->
     $scope.$apply(->
       $scope.submitStatus = status
     )
   
+  # Submits the form
   $scope.submit = ->
     $scope.submitStatus = ''
     $scope.errors = {}
+    
+    # Check for errors in the form
     if !$scope.media.title || $scope.media.title.length < 1
       $scope.errors['title'] = 'Title cannot be empty.'
     if !$scope.media.media_type
@@ -85,25 +94,35 @@
     if $scope.isVideo() && (!$scope.media.url || $scope.media.url.length < 1)
       $scope.errors['url'] = 'URL cannot be empty'
       
+    # If no errors, process the submit action
     if _.size($scope.errors) == 0
+      
+      # Find the tags that need to be created
       newTags = _.difference(_.pluck($scope.tags, 'name'), _.pluck($scope.existing_tags, 'name'))
       newTagPromises = []
       _.each(newTags, (tag) ->
         newTagPromises.push(jQuery.post('/api/tags', { label: tag }))
       )
       
+      # Create the tags
       jQuery.when.apply(jQuery, newTagPromises).done( ->
+        
+        # Update existing tags with the newly added tags
         jQuery.get('/api/tags.json').done((tagData) ->
           $scope.existing_tags = []
           _.each(tagData, (tag) ->
             $scope.existing_tags.push({ name: tag.label, id: tag.id })
           )
+          
+          # Get ids of each of the tags
           _.each($scope.tags, (tag) ->
             match = _.find($scope.existing_tags, (match_tag) ->
               match_tag.name == tag.name
             )
             tag.id = match.id
           )
+          
+          # Create data object for the POST request
           data = {
             title: $scope.media.title,
             media_type_id: $scope.media.media_type.id,
@@ -114,15 +133,20 @@
             )
           }
           jQuery.post('/api/media.json', data).done(->
+            # Media creation succeeded
             changeSubmitStatus("Success!")
           ).fail(->
+            # Media creation failed
             changeSubmitStatus('Error: Could not add the new media.')
           )
         )
         .fail(->
+          # Tag creation failed.
           changeSubmitStatus('Error: Could not add the new tags.')
         )
       )
+      
+    # Error in the form
     else
       changeSubmitStatus('Error: Invalid fields.')
   
@@ -130,25 +154,31 @@
   init = ->    
     $scope.existing_tags = [];
     $scope.media_types = []  
+    
+    # Load values from the server
     jQuery.when(
       jQuery.get('/api/tags.json')
       jQuery.get('/api/media_types.json')
     )
     .done((tagData, mediaTypeData) ->
-       _.each(tagData[0], (tag) ->
-         $scope.existing_tags.push({ name: tag.label, id: tag.id })
-       )
-       _.each(mediaTypeData[0], (mediaType) ->
-         $scope.media_types.push({ name: mediaType.name, id: mediaType.id })
-       )
-       $scope.$apply(->
-         $scope.new_tag = { name: '' }
-         $scope.media = {}
-         $scope.mediaLoaded = false
-         $scope.tags = []  
-         $scope.errors = {}
-         $scope.loading = false
-       )
+      
+      # Set the loaded values to the models
+      _.each(tagData[0], (tag) ->
+        $scope.existing_tags.push({ name: tag.label, id: tag.id })
+      )
+      _.each(mediaTypeData[0], (mediaType) ->
+        $scope.media_types.push({ name: mediaType.name, id: mediaType.id })
+      )
+      
+      # Apply the changes
+      $scope.$apply(->      
+        $scope.new_tag = { name: '' }
+        $scope.media = {}
+        $scope.mediaLoaded = false
+        $scope.tags = []  
+        $scope.errors = {}
+        $scope.loading = false
+      )
     )
     .fail(->
       $scope.$apply(->

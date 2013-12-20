@@ -2,10 +2,16 @@
 <!-- Author: Christopher Foo -->
 <div class="container">
   <h1>Search By Tag</h1>
+  
+  <!-- Loading Message -->
   <div ng-if="loading">
     Loading...
   </div>
+  
+  <!-- Search Form / Feed -->
   <div ng-if="!loading">
+    
+    <!-- Add Tag Field -->
     <div class="form-group" ng-class="{ 'has-error': errors['add-tag'] }">
       <label class="control-label" for="tagTypeahead">Add Tag</label>
       <div class="input-group">
@@ -17,6 +23,8 @@
       </div>
       <span class="help-block" ng-if="errors['add-tag']">{{errors['add-tag']}}</span>
     </div>
+    
+    <!-- Current Tags -->
     <ul class="search-tags">
       <li ng-repeat="tag in tags">
         <div>
@@ -24,6 +32,8 @@
         </div>
       </li>
     </ul>
+    
+    <!-- Results Feed -->
     <div id="feed">
       <h2>Matches ({{media_elements.length}})</h2>
       <ul class="list-group">
