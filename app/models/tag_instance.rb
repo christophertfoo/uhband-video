@@ -22,5 +22,7 @@ class TagInstance < ActiveRecord::Base
     def self.getAll()
       find(:all)
     end
+    
+  
   
 end
